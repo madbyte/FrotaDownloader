@@ -55,9 +55,12 @@ Module ModuleMain
         client.DownloadFileAsync(uri, myFile)
     End Sub
 
+    Dim percent As Integer = -1
     Private Sub DownloadProgressCallback(ByVal sender As Object, ByVal e As DownloadProgressChangedEventArgs)
-        'Console.WriteLine("Download status: " + e.ProgressPercentage.ToString)
-        Console.WriteLine("Download status: " + e.BytesReceived.ToString + "bytes of " + e.TotalBytesToReceive.ToString + "bytes (" + e.ProgressPercentage.ToString + "%)")
+        If percent < e.ProgressPercentage Then
+            Console.WriteLine("Download status: " + e.BytesReceived.ToString + "bytes of " + e.TotalBytesToReceive.ToString + "bytes (" + e.ProgressPercentage.ToString + "%)")
+            percent = e.ProgressPercentage
+        End If
     End Sub
 
     Private Sub DownloadFileCompletedCallback(ByVal sender As Object, ByVal e As AsyncCompletedEventArgs)
@@ -75,6 +78,6 @@ Module ModuleMain
         Console.WriteLine("delete frota.zip")
         File.Delete(Dota2AddonPath + "\frota.zip")
         Console.WriteLine("frota installation completed")
-        Console.WriteLine("Press any key to exit ...")
+        Console.WriteLine("Press 'return' to exit ...")
     End Sub
 End Module
